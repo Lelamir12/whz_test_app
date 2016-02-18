@@ -20,6 +20,7 @@
 
         <activity
             android:name=".NearByPlacesActivity"
+            android:label="Near By Places"
             android:screenOrientation="sensorPortrait"></activity>
 
     </application>
