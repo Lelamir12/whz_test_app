@@ -29,6 +29,9 @@ public class GetNearByPlacesServlet extends HttpServlet {
 
             NearByPlace byPlace = new NearByPlace();
             byPlace.setName("Cafe something");
+            byPlace.setCoordinates("34.56,23.45");
+            byPlace.setLegalName("Legal Name");
+            
             ArrayList<NearByPlace> al = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 al.add(byPlace);
