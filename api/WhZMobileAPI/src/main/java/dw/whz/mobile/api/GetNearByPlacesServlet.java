@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author mindia
  */
 @WebServlet(name = "GetLecture", urlPatterns = {"/get-nearby-places"})
-public class GetLectureServlet extends HttpServlet {
+public class GetNearByPlacesServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
