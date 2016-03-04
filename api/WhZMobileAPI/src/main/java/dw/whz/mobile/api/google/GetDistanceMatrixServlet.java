@@ -22,25 +22,26 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mindia
  */
-@WebServlet(name = "GetLocationInfoServlet", urlPatterns = {"/get-location-info"})
-public class GetLocationInfoServlet extends HttpServlet {
+@WebServlet(name = "GetDistanceMatrixServlet", urlPatterns = {"/get-distance-matrix"})
+public class GetDistanceMatrixServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
 
-        String langLot = request.getParameter("location");
+        String origin = request.getParameter("origin");
+        String destinations = request.getParameter("destination");
 
         try {
-            HttpResponse<String> body = Unirest.post("https://maps.googleapis.com/maps/api/geocode/json")
-                    .queryString("latlng", langLot)
-                    .queryString("key", API.API_KEY)
+            HttpResponse<String> body = Unirest.post("https://maps.googleapis.com/maps/api/distancematrix/json")
+                    .queryString("origins", origin)
+                    .queryString("destinations", destinations)
                     .asString();
             try (PrintWriter out = response.getWriter()) {
                 out.printf(body.getBody());
             }
         } catch (UnirestException ex) {
-            Logger.getLogger(GetLocationInfoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetDistanceMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

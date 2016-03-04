@@ -38,8 +38,6 @@ public class GetNearByPlacesServlet extends HttpServlet {
                     .queryString("key", API.API_KEY)
                     .asString();
 
-//            PlaceSearchResponse rr = new Gson().fromJson(body.getBody(), PlaceSearchResponse.class);
-
             try (PrintWriter out = response.getWriter()) {
                 out.print(body.getBody());
             }

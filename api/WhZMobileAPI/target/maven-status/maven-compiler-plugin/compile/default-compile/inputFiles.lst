@@ -1,7 +1,4 @@
-/Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/NearByPlace.java
 /Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/GetNearByPlacesServlet.java
-/Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/PlaceSearchResponse.java
+/Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/GetDistanceMatrixServlet.java
 /Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/API.java
 /Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/GetLocationInfoServlet.java
-/Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/Location.java
-/Users/mindia/lela/whz_test_app/api/WhZMobileAPI/src/main/java/dw/whz/mobile/api/google/GooglePlace.java
