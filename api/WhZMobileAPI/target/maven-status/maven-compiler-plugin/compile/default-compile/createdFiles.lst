@@ -1,2 +1,9 @@
-dw/whz/mobile/api/GetNearByPlacesServlet.class
-dw/whz/mobile/api/NearByPlace.class
+dw/whz/mobile/api/google/GooglePlace$Geometry.class
+dw/whz/mobile/api/google/GetLocationInfoServlet.class
+dw/whz/mobile/api/google/PlaceSearchResponse.class
+dw/whz/mobile/api/google/API.class
+dw/whz/mobile/api/google/NearByPlace.class
+dw/whz/mobile/api/google/GooglePlace.class
+dw/whz/mobile/api/google/Location.class
+dw/whz/mobile/api/google/GetNearByPlacesServlet.class
+dw/whz/mobile/api/google/GooglePlace$Location.class
