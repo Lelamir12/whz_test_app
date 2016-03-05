@@ -8,8 +8,13 @@ public class NearByPlaces {
     private String name;
     private String coordinates;
     private String legalName;
+    private String lat;
+    private String lng;
 
 
+    public String getLatLng() {
+        return lat + "," + lng;
+    }
 
     public String getName() {
         return name;
@@ -35,5 +40,19 @@ public class NearByPlaces {
         this.legalName = legalName;
     }
 
+    public String getLat() {
+        return lat;
+    }
 
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
 }

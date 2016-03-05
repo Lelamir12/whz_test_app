@@ -2,20 +2,22 @@ package de.whz.mobile.client;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -24,7 +26,11 @@ import cz.msebera.android.httpclient.Header;
  */
 public class NearByPlacesActivity extends Activity {
 
+    public static String mCurrentLocation;
+    public static String mCurrentCoordinates;
+
     private ListView mNearByPLaces;
+    private TextView mStatus;
     private NearByPlacesAdapter mNearByPlacesAdapter;
 
     @Override
@@ -35,26 +41,63 @@ public class NearByPlacesActivity extends Activity {
         mNearByPlacesAdapter = new NearByPlacesAdapter(this, 0, new ArrayList<NearByPlaces>());
         mNearByPLaces.setAdapter(mNearByPlacesAdapter);
 
+        mStatus = (TextView) findViewById(R.id.please_wait);
+
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.43.114/whz-mobile-api/get-nearby-places", new AsyncHttpResponseHandler() {
+        client.get("http://46.101.232.55:8080/get-near-by-places?location=" + mCurrentCoordinates, new AsyncHttpResponseHandler() {
 
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                String body = new String(response);
-                List<NearByPlaces> nearByPlaces = new Gson().fromJson(body, new TypeToken<List<NearByPlaces>>() {
-                }.getType());
 
-                mNearByPlacesAdapter.addAll(nearByPlaces);
+                try {
+                    JSONObject jsonObject = new JSONObject(new String(response));
+                    JSONArray jsonArray = jsonObject.getJSONArray("results");
+
+                    if (jsonArray.length() > 0) {
+                        mNearByPLaces.setVisibility(View.VISIBLE);
+                        mStatus.setVisibility(View.GONE);
+                    }
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject _i = jsonArray.getJSONObject(i);
+                        NearByPlaces nearByPlaces = new NearByPlaces();
+                        nearByPlaces.setLegalName(_i.get("vicinity").toString());
+                        nearByPlaces.setName(_i.get("name").toString());
+                        nearByPlaces.setLat(_i.getJSONObject("geometry").getJSONObject("location").getString("lat"));
+                        nearByPlaces.setLng(_i.getJSONObject("geometry").getJSONObject("location").getString("lng"));
+                        mNearByPlacesAdapter.add(nearByPlaces);
+                    }
+
+                } catch (Exception ex) {
+                    mStatus.setText("Unable tp parse data, Please try again or Check your Internet Connection");
+                }
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                mStatus.setText("Unable tp parse data, Please try again or Check your Internet Connection");
             }
 
+        });
+
+        mNearByPLaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                NearByPlaces nearByPlaces = mNearByPlacesAdapter.getItem(position);
+
+                DistanceActivity.mCurrentCoordinates = mCurrentCoordinates;
+                DistanceActivity.mCurrentLocation = mCurrentLocation;
+
+                DistanceActivity.mDestinationCoordinates = nearByPlaces.getLatLng();
+                DistanceActivity.mDestination = nearByPlaces.getName();
+
+                Intent intent = new Intent(NearByPlacesActivity.this, DistanceActivity.class);
+                startActivity(intent);
+            }
         });
 
 
@@ -70,9 +113,9 @@ public class NearByPlacesActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            LayoutInflater li = LayoutInflater.from(context);
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View view = li.inflate(R.layout.view_near_by_places_item, parent);
+            View view = mInflater.inflate(R.layout.view_near_by_places_item, parent, false);
 
             NearByPlaces nearByPlaces = getItem(position);
 
